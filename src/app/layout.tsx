@@ -1,27 +1,50 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next'
+import { Cinzel_Decorative, Cormorant_Garamond, Great_Vibes, Playfair_Display } from 'next/font/google'
+import './globals.css'
+
+const greatVibes = Great_Vibes({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-great-vibes'
+})
+
+const playfairDisplay = Playfair_Display({
+  subsets: ['latin'],
+  style: ['normal', 'italic'],
+  weight: ['400', '600'],
+  variable: '--font-playfair-display'
+})
+
+const cormorantGaramond = Cormorant_Garamond({
+  subsets: ['latin'],
+  style: ['normal', 'italic'],
+  weight: ['300', '400', '600'],
+  variable: '--font-cormorant-garamond'
+})
+
+const cinzelDecorative = Cinzel_Decorative({
+  subsets: ['latin'],
+  weight: '700',
+  variable: '--font-cinzel-decorative'
+})
 
 export const metadata: Metadata = {
-  title: "Maichel & Mariam — Wedding Invitation",
-  description: "You are cordially invited to celebrate our special day.",
-};
+  title: 'Michael & Mariam — Wedding Invitation',
+  description: 'You are cordially invited to celebrate our special day.'
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="ar" dir="ltr">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Cinzel+Decorative:wght@700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body>{children}</body>
+      <body
+        className={ `${ greatVibes.variable } ${ playfairDisplay.variable } ${ cormorantGaramond.variable } ${ cinzelDecorative.variable }` }
+      >
+        { children }
+      </body>
     </html>
-  );
+  )
 }

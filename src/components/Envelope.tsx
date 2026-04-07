@@ -1,8 +1,41 @@
-"use client";
-import { motion } from "framer-motion";
+"use client"
+import { motion } from "framer-motion"
 
 interface EnvelopeProps {
-  onOpen: () => void;
+  onOpen: () => void
+}
+
+const ENVELOPE_PARTICLES = Array.from({ length: 18 }, (_, i) => ({
+  id: i,
+  left: `${((i * 29 + 7) % 100)}%`,
+  delay: (i * 1.3) % 6,
+  duration: 6 + (i * 1.9) % 8,
+  size: 2 + (i * 1.1) % 4,
+  symbol: ['✦', '❦', '✧', '·'][i % 4],
+}))
+
+function FloatingParticles() {
+  const particles = ENVELOPE_PARTICLES
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {particles.map(p => (
+        <div
+          key={p.id}
+          className="absolute text-[#b8965a]"
+          style={{
+            left: p.left,
+            bottom: '-20px',
+            fontSize: `${p.size * 3}px`,
+            opacity: 0,
+            animation: `drift ${p.duration}s ease-in-out ${p.delay}s infinite`,
+          }}
+        >
+          {p.symbol}
+        </div>
+      ))}
+    </div>
+  )
 }
 
 export default function Envelope({ onOpen }: EnvelopeProps) {
@@ -11,139 +44,180 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
       className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden cursor-pointer select-none"
       style={{
         background: `
-          radial-gradient(ellipse at 30% 20%, rgba(212,196,175,0.4) 0%, transparent 60%),
-          radial-gradient(ellipse at 70% 80%, rgba(196,179,155,0.3) 0%, transparent 60%),
+          radial-gradient(ellipse at 20% 10%, rgba(184,150,90,0.15) 0%, transparent 50%),
+          radial-gradient(ellipse at 80% 90%, rgba(184,150,90,0.1) 0%, transparent 50%),
+          radial-gradient(ellipse at 50% 50%, rgba(212,196,175,0.4) 0%, transparent 70%),
           #f0ebe0
         `,
       }}
       onClick={onOpen}
     >
-      {/* Floral background texture */}
+      <FloatingParticles />
+
       <div
-        className="absolute inset-0 opacity-10"
+        className="absolute inset-0 opacity-[0.05]"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='%23a08060' stroke-width='0.5'/%3E%3Cellipse cx='50' cy='20' rx='8' ry='14' fill='%23a08060' opacity='0.3'/%3E%3Cellipse cx='50' cy='80' rx='8' ry='14' fill='%23a08060' opacity='0.3'/%3E%3Cellipse cx='20' cy='50' rx='14' ry='8' fill='%23a08060' opacity='0.3'/%3E%3Cellipse cx='80' cy='50' rx='14' ry='8' fill='%23a08060' opacity='0.3'/%3E%3C/svg%3E")`,
-          backgroundSize: "120px 120px",
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Ccircle cx='60' cy='60' r='50' fill='none' stroke='%23a08060' stroke-width='0.3'/%3E%3Cellipse cx='60' cy='20' rx='10' ry='18' fill='%23a08060' opacity='0.2'/%3E%3Cellipse cx='60' cy='100' rx='10' ry='18' fill='%23a08060' opacity='0.2'/%3E%3Cellipse cx='20' cy='60' rx='18' ry='10' fill='%23a08060' opacity='0.2'/%3E%3Cellipse cx='100' cy='60' rx='18' ry='10' fill='%23a08060' opacity='0.2'/%3E%3C/svg%3E")`,
+          backgroundSize: "140px 140px",
         }}
       />
 
-      {/* Top ornament */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.3 }}
-        className="mb-6 text-center"
+        transition={{ duration: 1.2, delay: 0.2 }}
+        className="mb-8 text-center z-10"
       >
-        <div className="text-[#8B7355] text-sm tracking-[0.35em] font-light uppercase mb-3">
-          ✦ ✦ ✦
-        </div>
+        <motion.div
+          className="text-sm tracking-[0.4em] font-light uppercase mb-4"
+          style={{ fontFamily: 'var(--font-cormorant-garamond)' }}
+          animate={{ opacity: [0.4, 1, 0.4] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <span className="gold-shimmer">You&apos;re Invited</span>
+        </motion.div>
         <p
-          className="text-[#5a4a35] tracking-[0.25em] uppercase text-sm font-light"
-          style={{ fontFamily: "'Cormorant Garamond', serif" }}
+          className="text-[#5a4a35] tracking-[0.25em] uppercase text-xs font-light"
+          style={{ fontFamily: 'var(--font-cormorant-garamond)' }}
         >
           Come Celebrate With Us
         </p>
-        <div className="text-[#8B7355] text-sm tracking-[0.35em] font-light mt-3">
-          ✦ ✦ ✦
-        </div>
       </motion.div>
 
-      {/* Envelope */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.8, y: 30 }}
+        initial={{ opacity: 0, scale: 0.75, y: 40 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.9, delay: 0.6, ease: "easeOut" }}
-        whileHover={{ scale: 1.03, y: -4 }}
-        whileTap={{ scale: 0.97 }}
-        className="relative"
-        style={{ width: "280px", height: "195px" }}
+        transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        whileHover={{ scale: 1.04, y: -6 }}
+        whileTap={{ scale: 0.96 }}
+        className="relative z-10"
+        style={{ width: "300px", height: "210px" }}
       >
-        {/* Envelope body */}
+        <motion.div
+          className="absolute -inset-3 rounded-lg opacity-0"
+          style={{
+            background: "radial-gradient(ellipse, rgba(184,150,90,0.3), transparent 70%)",
+          }}
+          animate={{ opacity: [0, 0.5, 0] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+        />
+
         <div
-          className="absolute inset-0 rounded-sm shadow-xl"
+          className="absolute inset-0 rounded-sm"
           style={{
             background: "linear-gradient(160deg, #ede5d5 0%, #e0d5c0 50%, #d8cdb5 100%)",
-            boxShadow: "0 20px 60px rgba(90,70,45,0.25), 0 4px 12px rgba(90,70,45,0.15)",
+            boxShadow: `
+              0 25px 60px rgba(90,70,45,0.3),
+              0 8px 20px rgba(90,70,45,0.15),
+              inset 0 1px 0 rgba(255,255,255,0.4)
+            `,
           }}
         />
 
-        {/* Envelope flap (top triangle) */}
-        <div
-          className="absolute top-0 left-0 right-0"
-          style={{
-            height: "50%",
-            overflow: "hidden",
-          }}
-        >
+        <div className="absolute top-0 left-0 right-0" style={{ height: "50%", overflow: "hidden" }}>
           <div
             style={{
               width: 0,
               height: 0,
-              borderLeft: "140px solid transparent",
-              borderRight: "140px solid transparent",
-              borderTop: "100px solid #cfc3ad",
+              borderLeft: "150px solid transparent",
+              borderRight: "150px solid transparent",
+              borderTop: "108px solid #cfc3ad",
             }}
           />
         </div>
 
-        {/* Bottom left triangle */}
         <div
           className="absolute bottom-0 left-0"
           style={{
-            width: 0,
-            height: 0,
-            borderBottom: "97px solid #d4c9b5",
-            borderRight: "140px solid transparent",
+            width: 0, height: 0,
+            borderBottom: "105px solid #d4c9b5",
+            borderRight: "150px solid transparent",
           }}
         />
-        {/* Bottom right triangle */}
         <div
           className="absolute bottom-0 right-0"
           style={{
-            width: 0,
-            height: 0,
-            borderBottom: "97px solid #ccc0ab",
-            borderLeft: "140px solid transparent",
+            width: 0, height: 0,
+            borderBottom: "105px solid #ccc0ab",
+            borderLeft: "150px solid transparent",
           }}
         />
 
-        {/* Wax seal */}
         <motion.div
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex items-center justify-center rounded-full"
           style={{
-            width: "56px",
-            height: "56px",
+            width: "62px",
+            height: "62px",
             background: "radial-gradient(circle at 35% 35%, #3a3a3a, #1a1a1a)",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.5), inset 0 1px 3px rgba(255,255,255,0.1)",
+            boxShadow: `
+              0 6px 20px rgba(0,0,0,0.5),
+              0 0 30px rgba(184,150,90,0.3),
+              inset 0 1px 3px rgba(255,255,255,0.1)
+            `,
           }}
-          animate={{ rotate: [0, 2, -2, 0] }}
+          animate={{
+            rotate: [0, 3, -3, 0],
+            boxShadow: [
+              "0 6px 20px rgba(0,0,0,0.5), 0 0 20px rgba(184,150,90,0.2), inset 0 1px 3px rgba(255,255,255,0.1)",
+              "0 6px 20px rgba(0,0,0,0.5), 0 0 40px rgba(184,150,90,0.5), inset 0 1px 3px rgba(255,255,255,0.1)",
+              "0 6px 20px rgba(0,0,0,0.5), 0 0 20px rgba(184,150,90,0.2), inset 0 1px 3px rgba(255,255,255,0.1)",
+            ],
+          }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         >
           <span
-            className="text-[#c9a96e] text-2xl font-bold italic"
-            style={{ fontFamily: "'Cinzel Decorative', cursive", textShadow: "0 1px 3px rgba(0,0,0,0.5)" }}
+            className="text-2xl font-bold italic"
+            style={{
+              fontFamily: 'var(--font-cinzel-decorative)',
+              background: 'linear-gradient(135deg, #c9a96e, #e8d4a0, #c9a96e)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              textShadow: "none",
+            }}
           >
             M
           </span>
         </motion.div>
+
+        {[
+          { top: '8px', left: '8px' },
+          { top: '8px', right: '8px' },
+          { bottom: '8px', left: '8px' },
+          { bottom: '8px', right: '8px' },
+        ].map((pos, i) => (
+          <motion.div
+            key={i}
+            className="absolute text-[#b8965a] text-[8px]"
+            style={pos}
+            animate={{ opacity: [0.3, 0.8, 0.3], scale: [0.8, 1.2, 0.8] }}
+            transition={{ duration: 3, delay: i * 0.5, repeat: Infinity }}
+          >
+            ✦
+          </motion.div>
+        ))}
       </motion.div>
 
-      {/* Tap to open */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1.2 }}
-        className="mt-10 text-center"
+        className="mt-12 text-center z-10"
       >
-        <motion.p
-          className="text-[#5a4a35] tracking-[0.3em] uppercase text-xs"
-          style={{ fontFamily: "'Cormorant Garamond', serif" }}
-          animate={{ opacity: [0.6, 1, 0.6] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+        <motion.div
+          className="inline-flex items-center gap-3"
+          animate={{ y: [0, -4, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
-          Tap to Open...
-        </motion.p>
+          <div className="w-8 h-px" style={{ background: "linear-gradient(90deg, transparent, #b8965a)" }} />
+          <p
+            className="text-[#5a4a35] tracking-[0.3em] uppercase text-xs"
+            style={{ fontFamily: 'var(--font-cormorant-garamond)' }}
+          >
+            Tap to Open
+          </p>
+          <div className="w-8 h-px" style={{ background: "linear-gradient(90deg, #b8965a, transparent)" }} />
+        </motion.div>
       </motion.div>
     </div>
-  );
+  )
 }
