@@ -144,7 +144,7 @@ export default function MessageForm() {
         viewport={ { once: true, margin: "-40px" } }
         custom={ 0.15 }
         onSubmit={ handleSubmit }
-        className="w-full max-w-lg relative px-7 pb-9 pt-10 sm:px-9 sm:pb-10 sm:pt-11"
+        className="w-full max-w-lg relative mx-4 px-7 pb-9 pt-10 sm:mx-0 sm:px-9 sm:pb-10 sm:pt-11"
         noValidate
       >
         { ['top-4 right-5', 'bottom-4 left-5', 'bottom-4 right-5'].map((pos, i) => (
@@ -171,6 +171,7 @@ export default function MessageForm() {
               id="guest-name"
               name="name"
               type="text"
+              placeholder="Enter your name here..."
               autoComplete="name"
               value={ name }
               onChange={ (ev) => {
@@ -178,6 +179,7 @@ export default function MessageForm() {
                 if (nameError) setNameError("")
                 if (toast) dismissToast()
               } }
+
               className={ inputClassName }
               style={ { fontFamily: 'var(--font-cormorant-garamond)', border: '1px solid #b8965a', borderRadius: '4px' } }
               disabled={ isSubmitting }
@@ -203,6 +205,7 @@ export default function MessageForm() {
               id="guest-message"
               name="message"
               rows={ 5 }
+              placeholder="Write your message here..."
               value={ message }
               onChange={ (ev) => {
                 setMessage(ev.target.value)

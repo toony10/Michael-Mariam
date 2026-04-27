@@ -263,16 +263,16 @@ export default function Invitation() {
             className="text-center mb-5"
           >
             <div
-              className="text-[#3a2e1e] font-semibold tracking-[0.25em] text-sm uppercase"
-              style={ { fontFamily: 'var(--font-cormorant-garamond)' } }
+              className="text-[#3a2e1e] font-semibold tracking-[0.25em] text-lg uppercase"
+              style={ { fontFamily: 'var(--font-playfair-display)' } }
             >
-              3rd of May, 2026
+              2026-5-3
             </div>
             <div
-              className="text-xs tracking-wider mt-2"
-              style={ { fontFamily: 'var(--font-cormorant-garamond)' } }
+              className="text-2xl tracking-wider mt-2"
+              style={ { fontFamily: 'var(--font-playfair-display)' } }
             >
-              <span className="gold-shimmer">— At 6 PM —</span>
+              <span className="gold-shimmer">— At 7 PM —</span>
             </div>
           </motion.div>
 
